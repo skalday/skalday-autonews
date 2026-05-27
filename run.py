@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """
 News Automation Pipeline Orchestrator
-Usage: python run.py [--skip-fetch] [--skip-analyze] [--feedback]
-  --skip-fetch    Reuse existing news_data.json
-  --skip-analyze  Reuse existing analysis_data.json
-  --feedback      Interactive mode: label articles as high/low signal
+Usage: python run.py [--skip-fetch] [--skip-analyze] [--skip-publish] [--feedback]
+  --skip-fetch     Reuse existing news_data.json
+  --skip-analyze   Reuse existing analysis_data.json
+  --skip-publish   Skip static site generation
+  --feedback       Interactive mode: label articles as high/low signal
 """
 import json
 import sys
@@ -46,10 +47,10 @@ def save_json(data, path):
 def step_fetch(skip=False):
     news_file = BASE_DIR / "data" / "news_data.json"
     if skip and news_file.exists():
-        print(f"[1/3] SKIP fetch — loading {news_file}")
+        print(f"[1/4] SKIP fetch — loading {news_file}")
         return load_json(news_file)
 
-    print("[1/3] Fetching RSS feeds...")
+    print("[1/4] Fetching RSS feeds...")
     from pipeline.fetcher import fetch_rss_feeds
     data = fetch_rss_feeds(str(BASE_DIR / "config" / "rss_sources.txt"))
     save_json(data, news_file)
@@ -61,14 +62,14 @@ def step_fetch(skip=False):
 def step_analyze(raw_data, skip=False):
     analysis_file = BASE_DIR / "data" / "analysis_data.json"
     if skip and analysis_file.exists():
-        print(f"[2/3] SKIP analyze — loading {analysis_file}")
+        print(f"[2/4] SKIP analyze — loading {analysis_file}")
         return load_json(analysis_file)
 
     if not os.environ.get("ANTHROPIC_API_KEY"):
         print("ERROR: ANTHROPIC_API_KEY is not set.", file=sys.stderr)
         sys.exit(1)
 
-    print("[2/3] Running analysis with Claude API...")
+    print("[2/4] Running analysis with Claude API...")
     from pipeline.analyzer import run_analyzer
     results = run_analyzer(raw_data)
     save_json(results, analysis_file)
@@ -77,7 +78,7 @@ def step_analyze(raw_data, skip=False):
 
 
 def step_courier(analysis_data):
-    print("[3/3] Generating report...")
+    print("[3/4] Generating report...")
     from pipeline.courier import generate_report
     report = generate_report(analysis_data)
 
@@ -86,6 +87,14 @@ def step_courier(analysis_data):
     report_file.write_text(report, encoding='utf-8')
     print(f"      Report saved: {report_file}\n")
     return report_file
+
+
+def step_publish(analysis_data):
+    print("[4/4] Publishing to docs/...")
+    from pipeline.publisher import publish
+    docs_dir = publish(analysis_data)
+    print(f"      Published: {docs_dir}\n")
+    return docs_dir
 
 
 def step_feedback():
@@ -148,6 +157,7 @@ def main():
 
     skip_fetch = "--skip-fetch" in args
     skip_analyze = "--skip-analyze" in args
+    skip_publish = "--skip-publish" in args
 
     print("=" * 50)
     print("  News Automation Pipeline")
@@ -157,6 +167,8 @@ def main():
     raw_data = step_fetch(skip=skip_fetch)
     analysis_data = step_analyze(raw_data, skip=skip_analyze)
     report_file = step_courier(analysis_data)
+    if not skip_publish:
+        step_publish(analysis_data)
 
     print("=" * 50)
     print(f"Done! Report: {report_file}")

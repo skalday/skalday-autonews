@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkalDay AutoNews — 週報彙整</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@600&family=Noto+Sans+TC:wght@300&family=Oleo+Script:wght@700&family=Inter:wght@400;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #F2F2F2;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 1.8;
+  color: #111111;
+}
+a { color: #0051ba; text-decoration: none; }
+a:hover { text-decoration: underline; }
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Chiron GoRound TC', sans-serif;
+  font-weight: 600;
+  color: #111111;
+  line-height: 1.4;
+}
+h1 { font-size: 26px; }
+h2 { font-size: 20px; }
+h3 { font-size: 16px; }
+h4, h5, h6 { font-size: 14px; }
+p { margin-bottom: 8px; }
+.meta {
+  font-family: 'Courier Prime', monospace;
+  font-size: 12px;
+  color: #89B4E8;
+  margin-bottom: 6px;
+}
+.win98-box {
+  background: #c0c0c0;
+  border-top: 2px solid #ffffff;
+  border-left: 2px solid #ffffff;
+  border-right: 2px solid #555555;
+  border-bottom: 2px solid #555555;
+  margin-bottom: 16px;
+}
+.win98-title-bar {
+  background: #0051ba;
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.win98-body {
+  background: #F2F2F2;
+  margin: 2px;
+  padding: 12px 14px;
+}
+.win98-inset {
+  background: #F2F2F2;
+  border-top: 2px solid #555555;
+  border-left: 2px solid #555555;
+  border-right: 2px solid #ffffff;
+  border-bottom: 2px solid #ffffff;
+  padding: 8px 10px;
+  font-family: 'Courier Prime', monospace;
+  font-size: 13px;
+  color: #111111;
+  margin: 8px 0;
+}
+.win98-cta {
+  display: inline-block;
+  background: #2E5BB8;
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 8px 24px;
+  border-top: 3px solid #89B4E8;
+  border-left: 3px solid #89B4E8;
+  border-right: 3px solid #0F2B5B;
+  border-bottom: 3px solid #0F2B5B;
+  text-decoration: none;
+  margin-top: 10px;
+}
+.win98-cta:active {
+  border-top: 3px solid #0F2B5B;
+  border-left: 3px solid #0F2B5B;
+  border-right: 3px solid #89B4E8;
+  border-bottom: 3px solid #89B4E8;
+}
+.tag {
+  display: inline-block;
+  background: #F2F2F2;
+  color: #0051ba;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-weight: 300;
+  font-size: 11px;
+  padding: 2px 8px;
+  border: 1px solid #0051ba;
+  margin: 2px 2px 0 0;
+}
+.tag-primary {
+  background: #0051ba;
+  color: #F2F2F2;
+  border-color: #0F2B5B;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+}
+.nl-preview {
+  max-width: 760px;
+  margin: 0 auto;
+  background: #F2F2F2;
+  border: 2px solid #111111;
+}
+.nl-header {
+  background: #0051ba;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 3px solid #0F2B5B;
+}
+.nl-title {
+  font-family: 'Oleo Script', system-ui;
+  font-size: 22px;
+  color: #F2F2F2;
+  font-weight: 700;
+}
+.nl-body { padding: 16px; }
+.nl-section-head {
+  font-family: 'Courier Prime', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: #0051ba;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border-bottom: 1px solid #0051ba;
+  padding-bottom: 4px;
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+.nl-footer {
+  background: #111111;
+  color: #F2F2F2;
+  font-family: 'Courier Prime', monospace;
+  font-size: 11px;
+  padding: 8px 16px;
+}
+.nl-footer a { color: #89B4E8; }
+.report-list { list-style: none; }
+</style>
+</head>
+<body>
+<div class="nl-preview">
+  <div class="nl-header">
+    <span class="nl-title">SkalDay AutoNews</span>
+    <span class="meta" style="color:#89B4E8">ARCHIVE</span>
+  </div>
+  <div class="nl-body">
+    <div class="nl-section-head">&#9733; 週報彙整</div>
+    <ul class="report-list">
+<li>
+  <div class="win98-box">
+    <div class="win98-title-bar">
+      <span>&#9733;</span>
+      <span style="flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">週報 20260525~20260531</span>
+      <span class="meta" style="color:#89B4E8;flex-shrink:0;margin-left:6px">20260527</span>
+    </div>
+    <div class="win98-body">
+      <p class="meta">Japanese 2篇　Thai 3篇　Korean 3篇 &nbsp;|&nbsp; 共 8 篇</p>
+      <a href="20260527.html" class="win98-cta">&#8594; 閱讀</a>
+    </div>
+  </div>
+</li>
+    </ul>
+  </div>
+  <div class="nl-footer">
+    <p>&#169; SkalDay AutoNews &nbsp;|&nbsp; <a href="feed.xml">RSS 訂閱</a> &nbsp;|&nbsp; 每天多懂一點台泰日韓的文化競合關係</p>
+  </div>
+</div>
+</body>
+</html>
