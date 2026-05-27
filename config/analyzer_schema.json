@@ -1,0 +1,39 @@
+{
+  "type": "object",
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "date": {"type": "string"},
+        "source_category": {"type": "string"},
+        "total_entries": {"type": "integer"}
+      }
+    },
+    "articles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {"type": "string"},
+          "original_link": {"type": "string"},
+          "summary_zh": {"type": "string"},
+          "analysis": {
+            "type": "object",
+            "properties": {
+              "location": {
+                "type": "object",
+                "properties": {
+                  "city": {"type": "string"},
+                  "specific_node": {"type": "string"}
+                }
+              },
+              "keywords": {"type": "array", "items": {"type": "string"}},
+              "digital_physical_entanglement": {"type": "string"}
+            }
+          },
+          "signal_strength": {"type": "string", "enum": ["high", "medium", "low"]}
+        }
+      }
+    }
+  }
+}

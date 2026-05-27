@@ -1,0 +1,43 @@
+# RSS Sources for News Automation Pipeline
+# Category: Music & Culture / Cultural Geopolitics
+
+[Japanese]
+http://natalie.mu/music/feed/news
+http://www.billboard-japan.com/d_news/doc.xml
+# Google News — 推し活 アイドル 空間
+https://news.google.com/rss/search?q=推し活+アイドル+空間&hl=ja&gl=JP&ceid=JP:ja
+# Google News — コンテンツ 政策
+https://news.google.com/rss/search?q=コンテンツ+政策&hl=ja&gl=JP&ceid=JP:ja
+# Google News — ゲーム産業 政策
+https://news.google.com/rss/search?q=ゲーム産業+政策&hl=ja&gl=JP&ceid=JP:ja
+
+[Thai]
+http://www.mangozero.com/feed/
+http://thematter.co/feed
+https://thestandard.co/feed/
+https://www.thairath.co.th/rss/news
+# Google News — กิจกรรมแฟนคลับ ไอดอล พื้นที่
+https://news.google.com/rss/search?q=กิจกรรมแฟนคลับ+ไอดอล+พื้นที่&hl=th&gl=TH&ceid=TH:th
+# Google News — คอนเทนต์ นโยบาย
+https://news.google.com/rss/search?q=คอนเทนต์+นโยบาย&hl=th&gl=TH&ceid=TH:th
+# Google News — อุตสาหกรรมเกม นโยบาย
+https://news.google.com/rss/search?q=อุตสาหกรรมเกม+นโยบาย&hl=th&gl=TH&ceid=TH:th
+
+[Korean]
+http://www.soompi.com/feed/
+http://rss.mt.co.kr/st_news.xml
+http://www.hani.co.kr/rss/culture/
+# Google News — 덕질 아이돌 공간
+https://news.google.com/rss/search?q=덕질+아이돌+공간&hl=ko&gl=KR&ceid=KR:ko
+# Google News — 콘텐츠 정책
+https://news.google.com/rss/search?q=콘텐츠+정책&hl=ko&gl=KR&ceid=KR:ko
+# Google News — 게임산업 정책
+https://news.google.com/rss/search?q=게임산업+정책&hl=ko&gl=KR&ceid=KR:ko
+
+[Chinese]
+# Google News — 應援活動 偶像 空間
+https://news.google.com/rss/search?q=應援活動+偶像+空間&hl=zh-TW&gl=TW&ceid=TW:zh-TW
+# Google News — 內容產業 政策
+https://news.google.com/rss/search?q=內容產業+政策&hl=zh-TW&gl=TW&ceid=TW:zh-TW
+# Google News — 遊戲產業 政策
+https://news.google.com/rss/search?q=遊戲產業+政策&hl=zh-TW&gl=TW&ceid=TW:zh-TW

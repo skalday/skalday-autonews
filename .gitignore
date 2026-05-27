@@ -1,0 +1,16 @@
+# Secrets
+.env
+
+# Intermediate pipeline data (regenerated each run)
+data/news_data.json
+data/analysis_data.json
+
+# Local feedback (stays on your machine only)
+data/signal_feedback.json
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
