@@ -1,6 +1,9 @@
 # Secrets
 .env
 
+# Claude Code project instructions (local dev tool)
+CLAUDE.md
+
 # Intermediate pipeline data (regenerated each run)
 data/news_data.json
 data/analysis_data.json

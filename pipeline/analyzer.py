@@ -1,8 +1,8 @@
 import json
 import sys
-import os
+import subprocess
+import re
 from datetime import datetime
-import anthropic
 
 MAX_PER_CATEGORY = 5
 
@@ -21,7 +21,25 @@ RESEARCH_FOCUS = """研究關注交集：偶像 × 遊戲 × 音樂 × 演算法
 
 排除：純娛樂八卦、藝人私生活、單純 MV／單曲發布公告、與上述框架無交集的一般新聞。"""
 
-client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
+
+def _call_claude(prompt):
+    full_prompt = f"{SYSTEM_PROMPT}\n\n{prompt}"
+    result = subprocess.run(
+        ['claude', '-p', full_prompt],
+        capture_output=True,
+        text=True,
+        encoding='utf-8'
+    )
+    if result.returncode != 0:
+        raise RuntimeError(f"claude CLI error: {result.stderr.strip()}")
+    return result.stdout.strip()
+
+
+def _extract_json(text):
+    # Strip markdown code fences if Claude wraps output in them
+    text = re.sub(r'^```(?:json)?\n?', '', text.strip())
+    text = re.sub(r'\n?```$', '', text.strip())
+    return text.strip()
 
 
 def _load_signal_examples():
@@ -53,7 +71,6 @@ def _build_examples_context(signal_examples):
 
 
 def _collect_candidates(raw_data):
-    """Flatten all articles per category, de-duplicating by title."""
     candidates = {}
     for category, sources in raw_data.items():
         seen = set()
@@ -69,7 +86,6 @@ def _collect_candidates(raw_data):
 
 
 def _select_articles(category, articles):
-    """Ask Claude to pick relevant articles based on research framework. Returns selected subset."""
     listing = "\n".join(
         f"{i}. {a['title']}｜{a.get('summary', '')[:80]}"
         for i, a in enumerate(articles)
@@ -85,13 +101,7 @@ def _select_articles(category, articles):
 
 請只輸出一個 JSON 陣列，內容為選中文章的編號（0-based index），例如 [0, 3, 5]。不要包含任何其他文字。"""
 
-    response = client.messages.create(
-        model="claude-sonnet-4-6",
-        max_tokens=128,
-        system=[{"type": "text", "text": SYSTEM_PROMPT, "cache_control": {"type": "ephemeral"}}],
-        messages=[{"role": "user", "content": prompt}]
-    )
-    text = response.content[0].text.strip()
+    text = _extract_json(_call_claude(prompt))
     indices = json.loads(text)
     selected = [articles[i] for i in indices if 0 <= i < len(articles)]
     print(f"  Selected indices: {indices} → {len(selected)} articles", file=sys.stderr)
@@ -121,17 +131,7 @@ def _analyze_article(entry, signal_examples=None):
   "signal_strength": "high/medium/low"
 }}"""
 
-    response = client.messages.create(
-        model="claude-sonnet-4-6",
-        max_tokens=1024,
-        system=[{
-            "type": "text",
-            "text": SYSTEM_PROMPT,
-            "cache_control": {"type": "ephemeral"}
-        }],
-        messages=[{"role": "user", "content": prompt}]
-    )
-    text = response.content[0].text.strip()
+    text = _extract_json(_call_claude(prompt))
     return json.loads(text)
 
 

@@ -1,1 +1,1 @@
-anthropic
+# No third-party dependencies — analyzer uses Claude Code CLI (claude -p)
