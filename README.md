@@ -7,12 +7,14 @@
 <a name="english"></a>
 
 ## The Signal Behind the Pop Culture
-<img width="2110" height="1198" alt="skalday autonews header" src="https://github.com/user-attachments/assets/354bf421-25f3-4d53-ba07-7dbacf4029e9" />
 SkalDay AutoNews is an automated daily newsletter covering the business side of pop culture across Japan, Korea, and Thailand.
 
 [![Website](https://img.shields.io/badge/Newsletter-Read%20Online-blue)](https://skalday.github.io/skalday-autonews)
 [![RSS](https://img.shields.io/badge/RSS-Subscribe-orange)](https://skalday.github.io/skalday-autonews/feed.xml)
 [![License](https://img.shields.io/github/license/skalday/skalday-autonews)](LICENSE)
+
+<img width="2110" height="1198" alt="skalday autonews header" src="https://github.com/user-attachments/assets/354bf421-25f3-4d53-ba07-7dbacf4029e9" />
+
 
 ## What We Track
 
