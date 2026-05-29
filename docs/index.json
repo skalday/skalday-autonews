@@ -1,5 +1,15 @@
 [
   {
+    "date": "20260529",
+    "week_range": "20260525~20260531",
+    "total_entries": 10,
+    "categories": {
+      "Japanese": 5,
+      "Thai": 2,
+      "Korean": 5
+    }
+  },
+  {
     "date": "20260527",
     "week_range": "20260525~20260531",
     "total_entries": 8,

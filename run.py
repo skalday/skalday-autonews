@@ -65,11 +65,7 @@ def step_analyze(raw_data, skip=False):
         print(f"[2/4] SKIP analyze — loading {analysis_file}")
         return load_json(analysis_file)
 
-    if not os.environ.get("ANTHROPIC_API_KEY"):
-        print("ERROR: ANTHROPIC_API_KEY is not set.", file=sys.stderr)
-        sys.exit(1)
-
-    print("[2/4] Running analysis with Claude API...")
+    print("[2/4] Running analysis via claude CLI...")
     from pipeline.analyzer import run_analyzer
     results = run_analyzer(raw_data)
     save_json(results, analysis_file)
@@ -111,9 +107,9 @@ def step_feedback():
 
     print(f"\n本次共 {len(articles)} 篇分析文章：\n")
     for i, a in enumerate(articles, 1):
-        kws = ', '.join(a.get('analysis', {}).get('keywords', [])[:4])
+        tags = ', '.join(a.get('analysis', {}).get('tags', [])[:4])
         print(f"[{i:2}] [{a.get('category', '?')}] {a['title']}")
-        print(f"      signal: {a.get('signal_strength', '?')} | 關鍵詞: {kws}")
+        print(f"      signal: {a.get('signal_strength', '?')} | tags: {tags}")
         print()
 
     high_input = input("輸入你認為 high signal 的文章編號（空格分隔，直接 Enter 跳過）: ").strip()
@@ -138,7 +134,7 @@ def step_feedback():
                 "user_signal": label,
                 "title": a["title"],
                 "category": a.get("category", ""),
-                "keywords": a.get("analysis", {}).get("keywords", []),
+                "tags": a.get("analysis", {}).get("tags", []),
                 "summary_zh": a.get("summary_zh", ""),
                 "digital_physical_entanglement": a.get("analysis", {}).get("digital_physical_entanglement", "")
             })

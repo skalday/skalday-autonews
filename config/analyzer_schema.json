@@ -20,14 +20,7 @@
           "analysis": {
             "type": "object",
             "properties": {
-              "location": {
-                "type": "object",
-                "properties": {
-                  "city": {"type": "string"},
-                  "specific_node": {"type": "string"}
-                }
-              },
-              "keywords": {"type": "array", "items": {"type": "string"}},
+              "tags": {"type": "array", "items": {"type": "string"}},
               "digital_physical_entanglement": {"type": "string"}
             }
           },

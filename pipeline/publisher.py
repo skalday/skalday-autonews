@@ -8,7 +8,7 @@ DOCS_DIR = BASE_DIR / "docs"
 
 SITE_URL = "https://skalday.github.io/skalday-autonews"
 SITE_TITLE = "SkalDay AutoNews"
-SITE_DESC = "每天多懂一點台泰日韓的文化競合關係"
+SITE_DESC = "每天多看一些流行文化新聞"
 
 _FONTS = (
     '<link rel="preconnect" href="https://fonts.googleapis.com">\n'
@@ -22,7 +22,7 @@ _CSS = """
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
   background: #F2F2F2;
-  font-family: 'Noto Sans TC', sans-serif;
+  font-family: 'Noto Sans TC', 'Inter', sans-serif;
   font-weight: 300;
   font-size: 14px;
   line-height: 1.8;
@@ -31,7 +31,7 @@ body {
 a { color: #0051ba; text-decoration: none; }
 a:hover { text-decoration: underline; }
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Chiron GoRound TC', sans-serif;
+  font-family: 'Chiron GoRound TC', 'Inter', sans-serif;
   font-weight: 600;
   color: #111111;
   line-height: 1.4;
@@ -42,7 +42,7 @@ h3 { font-size: 16px; }
 h4, h5, h6 { font-size: 14px; }
 p { margin-bottom: 8px; }
 .meta {
-  font-family: 'Courier Prime', monospace;
+  font-family: 'Courier Prime', 'Noto Sans TC', monospace;
   font-size: 12px;
   color: #89B4E8;
   margin-bottom: 6px;
@@ -58,7 +58,7 @@ p { margin-bottom: 8px; }
 .win98-title-bar {
   background: #0051ba;
   color: #ffffff;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', 'Chiron GoRound TC', sans-serif;
   font-size: 12px;
   font-weight: 700;
   padding: 3px 6px;
@@ -78,7 +78,8 @@ p { margin-bottom: 8px; }
   border-right: 2px solid #ffffff;
   border-bottom: 2px solid #ffffff;
   padding: 8px 10px;
-  font-family: 'Courier Prime', monospace;
+  font-family: 'Noto Sans TC', 'Inter', sans-serif;
+  font-weight: 300;
   font-size: 13px;
   color: #111111;
   margin: 8px 0;
@@ -87,7 +88,7 @@ p { margin-bottom: 8px; }
   display: inline-block;
   background: #2E5BB8;
   color: #ffffff;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', 'Noto Sans TC', sans-serif;
   font-size: 13px;
   font-weight: 700;
   padding: 8px 24px;
@@ -108,7 +109,7 @@ p { margin-bottom: 8px; }
   display: inline-block;
   background: #F2F2F2;
   color: #0051ba;
-  font-family: 'Noto Sans TC', sans-serif;
+  font-family: 'Noto Sans TC', 'Inter', sans-serif;
   font-weight: 300;
   font-size: 11px;
   padding: 2px 8px;
@@ -119,7 +120,7 @@ p { margin-bottom: 8px; }
   background: #0051ba;
   color: #F2F2F2;
   border-color: #0F2B5B;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Courier Prime', 'Noto Sans TC', monospace;
   font-weight: 700;
 }
 .nl-preview {
@@ -144,7 +145,7 @@ p { margin-bottom: 8px; }
 }
 .nl-body { padding: 16px; }
 .nl-section-head {
-  font-family: 'Courier Prime', monospace;
+  font-family: 'Courier Prime', 'Chiron GoRound TC', monospace;
   font-size: 11px;
   font-weight: 700;
   color: #0051ba;
@@ -158,7 +159,7 @@ p { margin-bottom: 8px; }
 .nl-footer {
   background: #111111;
   color: #F2F2F2;
-  font-family: 'Courier Prime', monospace;
+  font-family: 'Courier Prime', 'Noto Sans TC', monospace;
   font-size: 11px;
   padding: 8px 16px;
 }
@@ -185,35 +186,24 @@ def _rss_date(date_str):
 
 def _article_html(article):
     analysis = article.get("analysis", {})
-    location = analysis.get("location", {})
-    keywords = analysis.get("keywords", [])
+    tags = analysis.get("tags", [])
     entanglement = analysis.get("digital_physical_entanglement", "")
-    signal = article.get("signal_strength", "")
     title = article.get("title", "")
     link = article.get("original_link", "#")
     summary = article.get("summary_zh", "")
 
-    city = location.get("city", "")
-    node = location.get("specific_node", "")
-    location_str = " / ".join(filter(None, [city, node]))
-
-    signal_cls = "tag tag-primary" if signal == "high" else "tag"
-    signal_label = {"high": "HIGH", "medium": "MED", "low": "LOW"}.get(signal, signal.upper())
-
-    kw_tags = " ".join(f'<span class="tag">{_e(kw)}</span>' for kw in keywords)
+    tag_html = " ".join(f'<span class="tag">{_e(t)}</span>' for t in tags)
 
     return f"""<div class="win98-box">
   <div class="win98-title-bar">
     <span>&#9733;</span>
     <span style="flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">{_e(title)}</span>
-    <span class="{signal_cls}" style="white-space:nowrap;flex-shrink:0;margin-left:6px">{signal_label}</span>
   </div>
   <div class="win98-body">
-    <p class="meta">&#8594; {_e(location_str)}</p>
     <p>{_e(summary)}</p>
     <div class="win98-inset">{_e(entanglement)}</div>
-    <p style="margin-top:6px;margin-bottom:0">{kw_tags}</p>
-    <a href="{_e(link)}" class="win98-cta" target="_blank" rel="noopener">&#8594; 原文</a>
+    <p style="margin-top:6px;margin-bottom:0">{tag_html}</p>
+    <a href="{_e(link)}" target="_blank" rel="noopener">&#8594; 原文</a>
   </div>
 </div>"""
 
@@ -232,9 +222,7 @@ def _report_html(analysis_data, date_str):
     sections = []
     for cat, articles in by_category.items():
         articles_html = "\n".join(_article_html(a) for a in articles)
-        sections.append(
-            f'<div class="nl-section-head">&#9733; {_e(cat)}</div>\n{articles_html}'
-        )
+        sections.append(articles_html)
 
     return f"""<!DOCTYPE html>
 <html lang="zh-Hant">
@@ -250,10 +238,9 @@ def _report_html(analysis_data, date_str):
 <div class="nl-preview">
   <div class="nl-header">
     <span class="nl-title">{SITE_TITLE}</span>
-    <span class="meta" style="color:#89B4E8">ISSUE {date_str}</span>
   </div>
   <div class="nl-body">
-    <div class="nl-section-head">&#9733; 本週週報 {week_range}</div>
+    <h2>本週週報 {week_range}</h2>
     <p class="meta">生成時間：{generated_at}　總計：{total} 篇</p>
     <p style="margin-bottom:16px"><a href="index.html">&#8592; 返回彙整</a></p>
 {"".join(sections)}
@@ -278,12 +265,11 @@ def _index_html(reports):
   <div class="win98-box">
     <div class="win98-title-bar">
       <span>&#9733;</span>
-      <span style="flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">週報 {_e(week_range)}</span>
-      <span class="meta" style="color:#89B4E8;flex-shrink:0;margin-left:6px">{_e(date_str)}</span>
+      <span style="flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">{_e(date_str)}</span>
     </div>
     <div class="win98-body">
       <p class="meta">{_e(cat_str)} &nbsp;|&nbsp; 共 {total} 篇</p>
-      <a href="{_e(date_str)}.html" class="win98-cta">&#8594; 閱讀</a>
+      <a href="{_e(date_str)}.html">&#8594; 閱讀</a>
     </div>
   </div>
 </li>""")
@@ -303,10 +289,8 @@ def _index_html(reports):
 <div class="nl-preview">
   <div class="nl-header">
     <span class="nl-title">{SITE_TITLE}</span>
-    <span class="meta" style="color:#89B4E8">ARCHIVE</span>
   </div>
   <div class="nl-body">
-    <div class="nl-section-head">&#9733; 週報彙整</div>
     <ul class="report-list">
 {items_html}
     </ul>

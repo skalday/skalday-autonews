@@ -11,7 +11,7 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
   background: #F2F2F2;
-  font-family: 'Noto Sans TC', sans-serif;
+  font-family: 'Noto Sans TC', 'Inter', sans-serif;
   font-weight: 300;
   font-size: 14px;
   line-height: 1.8;
@@ -20,7 +20,7 @@ body {
 a { color: #0051ba; text-decoration: none; }
 a:hover { text-decoration: underline; }
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Chiron GoRound TC', sans-serif;
+  font-family: 'Chiron GoRound TC', 'Inter', sans-serif;
   font-weight: 600;
   color: #111111;
   line-height: 1.4;
@@ -31,7 +31,7 @@ h3 { font-size: 16px; }
 h4, h5, h6 { font-size: 14px; }
 p { margin-bottom: 8px; }
 .meta {
-  font-family: 'Courier Prime', monospace;
+  font-family: 'Courier Prime', 'Noto Sans TC', monospace;
   font-size: 12px;
   color: #89B4E8;
   margin-bottom: 6px;
@@ -47,7 +47,7 @@ p { margin-bottom: 8px; }
 .win98-title-bar {
   background: #0051ba;
   color: #ffffff;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', 'Chiron GoRound TC', sans-serif;
   font-size: 12px;
   font-weight: 700;
   padding: 3px 6px;
@@ -67,7 +67,8 @@ p { margin-bottom: 8px; }
   border-right: 2px solid #ffffff;
   border-bottom: 2px solid #ffffff;
   padding: 8px 10px;
-  font-family: 'Courier Prime', monospace;
+  font-family: 'Noto Sans TC', 'Inter', sans-serif;
+  font-weight: 300;
   font-size: 13px;
   color: #111111;
   margin: 8px 0;
@@ -76,7 +77,7 @@ p { margin-bottom: 8px; }
   display: inline-block;
   background: #2E5BB8;
   color: #ffffff;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', 'Noto Sans TC', sans-serif;
   font-size: 13px;
   font-weight: 700;
   padding: 8px 24px;
@@ -97,7 +98,7 @@ p { margin-bottom: 8px; }
   display: inline-block;
   background: #F2F2F2;
   color: #0051ba;
-  font-family: 'Noto Sans TC', sans-serif;
+  font-family: 'Noto Sans TC', 'Inter', sans-serif;
   font-weight: 300;
   font-size: 11px;
   padding: 2px 8px;
@@ -108,7 +109,7 @@ p { margin-bottom: 8px; }
   background: #0051ba;
   color: #F2F2F2;
   border-color: #0F2B5B;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Courier Prime', 'Noto Sans TC', monospace;
   font-weight: 700;
 }
 .nl-preview {
@@ -133,7 +134,7 @@ p { margin-bottom: 8px; }
 }
 .nl-body { padding: 16px; }
 .nl-section-head {
-  font-family: 'Courier Prime', monospace;
+  font-family: 'Courier Prime', 'Chiron GoRound TC', monospace;
   font-size: 11px;
   font-weight: 700;
   color: #0051ba;
@@ -147,7 +148,7 @@ p { margin-bottom: 8px; }
 .nl-footer {
   background: #111111;
   color: #F2F2F2;
-  font-family: 'Courier Prime', monospace;
+  font-family: 'Courier Prime', 'Noto Sans TC', monospace;
   font-size: 11px;
   padding: 8px 16px;
 }
@@ -159,28 +160,37 @@ p { margin-bottom: 8px; }
 <div class="nl-preview">
   <div class="nl-header">
     <span class="nl-title">SkalDay AutoNews</span>
-    <span class="meta" style="color:#89B4E8">ARCHIVE</span>
   </div>
   <div class="nl-body">
-    <div class="nl-section-head">&#9733; 週報彙整</div>
     <ul class="report-list">
 <li>
   <div class="win98-box">
     <div class="win98-title-bar">
       <span>&#9733;</span>
-      <span style="flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">週報 20260525~20260531</span>
-      <span class="meta" style="color:#89B4E8;flex-shrink:0;margin-left:6px">20260527</span>
+      <span style="flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">20260529</span>
+    </div>
+    <div class="win98-body">
+      <p class="meta">Japanese 5篇　Thai 2篇　Korean 5篇 &nbsp;|&nbsp; 共 10 篇</p>
+      <a href="20260529.html">&#8594; 閱讀</a>
+    </div>
+  </div>
+</li>
+<li>
+  <div class="win98-box">
+    <div class="win98-title-bar">
+      <span>&#9733;</span>
+      <span style="flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">20260527</span>
     </div>
     <div class="win98-body">
       <p class="meta">Japanese 2篇　Thai 3篇　Korean 3篇 &nbsp;|&nbsp; 共 8 篇</p>
-      <a href="20260527.html" class="win98-cta">&#8594; 閱讀</a>
+      <a href="20260527.html">&#8594; 閱讀</a>
     </div>
   </div>
 </li>
     </ul>
   </div>
   <div class="nl-footer">
-    <p>&#169; SkalDay AutoNews &nbsp;|&nbsp; <a href="feed.xml">RSS 訂閱</a> &nbsp;|&nbsp; 每天多懂一點台泰日韓的文化競合關係</p>
+    <p>&#169; SkalDay AutoNews &nbsp;|&nbsp; <a href="feed.xml">RSS 訂閱</a> &nbsp;|&nbsp; 每天多看一些流行文化新聞</p>
   </div>
 </div>
 </body>

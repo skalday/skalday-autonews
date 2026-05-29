@@ -3,9 +3,16 @@
   <channel>
     <title>SkalDay AutoNews</title>
     <link>https://skalday.github.io/skalday-autonews</link>
-    <description>每天多懂一點台泰日韓的文化競合關係</description>
+    <description>每天多看一些流行文化新聞</description>
     <language>zh-Hant</language>
-    <lastBuildDate>Wed, 27 May 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 29 May 2026 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>SkalDay AutoNews - 20260529</title>
+      <link>https://skalday.github.io/skalday-autonews/20260529.html</link>
+      <guid>https://skalday.github.io/skalday-autonews/20260529.html</guid>
+      <pubDate>Fri, 29 May 2026 00:00:00 +0000</pubDate>
+      <description>本期收錄 10 則新聞摘要</description>
+    </item>
     <item>
       <title>SkalDay AutoNews - 20260527</title>
       <link>https://skalday.github.io/skalday-autonews/20260527.html</link>

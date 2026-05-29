@@ -25,14 +25,19 @@ RESEARCH_FOCUS = """研究關注交集：偶像 × 遊戲 × 音樂 × 演算法
 def _call_claude(prompt):
     full_prompt = f"{SYSTEM_PROMPT}\n\n{prompt}"
     result = subprocess.run(
-        ['claude', '-p', full_prompt],
+        'claude',
+        input=full_prompt,
         capture_output=True,
         text=True,
-        encoding='utf-8'
+        encoding='utf-8',
+        shell=True
     )
     if result.returncode != 0:
         raise RuntimeError(f"claude CLI error: {result.stderr.strip()}")
-    return result.stdout.strip()
+    output = result.stdout.strip()
+    if not output:
+        raise RuntimeError(f"claude CLI returned empty output. stderr: {result.stderr.strip()}")
+    return output
 
 
 def _extract_json(text):
@@ -124,12 +129,20 @@ def _analyze_article(entry, signal_examples=None):
   "category": "語言分類",
   "summary_zh": "100字以內的繁體中文摘要",
   "analysis": {{
-    "location": {{ "city": "城市或N/A", "specific_node": "具體場域或平台" }},
-    "keywords": ["與研究框架相關的關鍵詞，涵蓋產業、平台、政策、行為者、地緣節點等"],
+    "tags": [
+      "事件地點（城市或具體場域，1-2個詞）",
+      "事件名稱（1個詞）",
+      "相關人物或組織名稱（1-3個詞，每個詞獨立一項）",
+      "研究關鍵詞1（與產業/平台/政策/地緣相關）",
+      "研究關鍵詞2",
+      "研究關鍵詞3"
+    ],
     "digital_physical_entanglement": "深入描述數位輿論流動如何與實體空間互動（2-3句）"
   }},
   "signal_strength": "high/medium/low"
-}}"""
+}}
+
+tags 陣列請依序填入：事件地點 → 事件名稱 → 相關人物或組織 → 3個研究關鍵詞，共6至9個項目。每個項目為一個字串。"""
 
     text = _extract_json(_call_claude(prompt))
     return json.loads(text)
