@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 """
 News Automation Pipeline Orchestrator
-Usage: python run.py [--skip-fetch] [--skip-analyze] [--skip-publish] [--feedback]
+Usage: python run.py [--skip-fetch] [--skip-analyze] [--skip-publish]
   --skip-fetch     Reuse existing news_data.json
   --skip-analyze   Reuse existing analysis_data.json
   --skip-publish   Skip static site generation
-  --feedback       Interactive mode: label articles as high/low signal
 """
 import json
 import sys
@@ -18,6 +17,7 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
 
 BASE_DIR = Path(__file__).parent
+(BASE_DIR / "data").mkdir(exist_ok=True)
 
 
 def _load_dotenv():
@@ -93,63 +93,8 @@ def step_publish(analysis_data):
     return docs_dir
 
 
-def step_feedback():
-    analysis_file = BASE_DIR / "data" / "analysis_data.json"
-    if not analysis_file.exists():
-        print("找不到 data/analysis_data.json，請先執行完整分析流程。")
-        return
-
-    analysis_data = load_json(analysis_file)
-    articles = analysis_data.get("articles", [])
-    if not articles:
-        print("分析結果為空。")
-        return
-
-    print(f"\n本次共 {len(articles)} 篇分析文章：\n")
-    for i, a in enumerate(articles, 1):
-        tags = ', '.join(a.get('analysis', {}).get('tags', [])[:4])
-        print(f"[{i:2}] [{a.get('category', '?')}] {a['title']}")
-        print(f"      signal: {a.get('signal_strength', '?')} | tags: {tags}")
-        print()
-
-    high_input = input("輸入你認為 high signal 的文章編號（空格分隔，直接 Enter 跳過）: ").strip()
-    low_input  = input("輸入你認為 low signal 的文章編號（空格分隔，直接 Enter 跳過）: ").strip()
-
-    def parse_indices(s):
-        return [int(x) - 1 for x in s.split() if x.isdigit()]
-
-    labeled = [(i, "high") for i in parse_indices(high_input)] + \
-              [(i, "low")  for i in parse_indices(low_input)]
-
-    feedback_file = BASE_DIR / "data" / "signal_feedback.json"
-    existing = load_json(feedback_file) if feedback_file.exists() else []
-
-    date_str = datetime.now().strftime("%Y-%m-%d")
-    new_entries = []
-    for idx, label in labeled:
-        if 0 <= idx < len(articles):
-            a = articles[idx]
-            new_entries.append({
-                "date": date_str,
-                "user_signal": label,
-                "title": a["title"],
-                "category": a.get("category", ""),
-                "tags": a.get("analysis", {}).get("tags", []),
-                "summary_zh": a.get("summary_zh", ""),
-                "digital_physical_entanglement": a.get("analysis", {}).get("digital_physical_entanglement", "")
-            })
-
-    updated = existing + new_entries
-    save_json(updated, feedback_file)
-    print(f"\n→ 已記錄 {len(new_entries)} 筆偏好（累計 {len(updated)} 筆）")
-
-
 def main():
     args = set(sys.argv[1:])
-
-    if "--feedback" in args:
-        step_feedback()
-        return
 
     skip_fetch = "--skip-fetch" in args
     skip_analyze = "--skip-analyze" in args

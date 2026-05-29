@@ -16,16 +16,38 @@
         "properties": {
           "title": {"type": "string"},
           "original_link": {"type": "string"},
+          "category": {"type": "string"},
           "summary_zh": {"type": "string"},
           "analysis": {
             "type": "object",
             "properties": {
-              "tags": {"type": "array", "items": {"type": "string"}},
-              "digital_physical_entanglement": {"type": "string"}
-            }
-          },
-          "signal_strength": {"type": "string", "enum": ["high", "medium", "low"]}
-        }
+              "location": {
+                "type": "array",
+                "items": {"type": "string"},
+                "description": "事件相關實體地點，純數位事件留空陣列"
+              },
+              "actors": {
+                "type": "array",
+                "items": {"type": "string"},
+                "minItems": 1,
+                "maxItems": 3,
+                "description": "人名或組織名，不填職稱描述"
+              },
+              "keywords": {
+                "type": "array",
+                "items": {"type": "string"},
+                "minItems": 3,
+                "maxItems": 3,
+                "description": "3個研究關鍵詞，各對應一個分析維度，不重複，不使用過於寬泛的詞"
+              },
+              "actor_logic": {"type": "string"},
+              "structural_change": {"type": "string"},
+              "trend_implication": {"type": "string"}
+            },
+            "required": ["location", "actors", "keywords", "actor_logic", "structural_change", "trend_implication"]
+          }
+        },
+        "required": ["title", "original_link", "category", "summary_zh", "analysis"]
       }
     }
   }

@@ -47,33 +47,6 @@ def _extract_json(text):
     return text.strip()
 
 
-def _load_signal_examples():
-    from pathlib import Path
-    feedback_file = Path(__file__).parent.parent / "data" / "signal_feedback.json"
-    if not feedback_file.exists():
-        return []
-    with open(feedback_file, encoding='utf-8') as f:
-        return json.load(f)
-
-
-def _build_examples_context(signal_examples):
-    if not signal_examples:
-        return ""
-    high = [e for e in signal_examples if e["user_signal"] == "high"][-4:]
-    low  = [e for e in signal_examples if e["user_signal"] == "low"][-4:]
-    if not high and not low:
-        return ""
-    parts = ["以下是研究者標記過的參考案例，請參考這些案例校準你的 signal_strength 判斷：\n"]
-    for e in high:
-        kws = ', '.join(e.get('keywords', [])[:5])
-        parts.append(f"[研究者標記: high] {e['title']}")
-        parts.append(f"  關鍵詞: {kws}")
-    for e in low:
-        kws = ', '.join(e.get('keywords', [])[:5])
-        parts.append(f"[研究者標記: low] {e['title']}")
-        parts.append(f"  關鍵詞: {kws}")
-    return "\n".join(parts) + "\n\n"
-
 
 def _collect_candidates(raw_data):
     candidates = {}
@@ -113,46 +86,56 @@ def _select_articles(category, articles):
     return selected
 
 
-def _analyze_article(entry, signal_examples=None):
-    examples_context = _build_examples_context(signal_examples)
-    prompt = f"""請針對以下新聞進行文化地緣政治分析，並輸出 JSON。
+_ANALYZE_PROMPT_TEMPLATE = """請針對以下新聞進行數位人類學分析，並輸出 JSON。
 
-{examples_context}標題：{entry['title']}
-摘要：{entry.get('summary', '（無摘要）')}
-連結：{entry['link']}
-語言分類：{entry['category']}
+標題：{title}
+摘要：{summary}
+連結：{link}
+語言分類：{category}
 
 輸出必須完全符合此 JSON 結構，不要包含 markdown 標籤或其他文字：
 {{
   "title": "原始標題",
   "original_link": "連結",
   "category": "語言分類",
-  "summary_zh": "100字以內的繁體中文摘要",
+  "summary_zh": "200字以內的繁體中文摘要。貼合原文內容翻譯，中立客觀描述新聞重點，不加入分析或評論。",
   "analysis": {{
-    "tags": [
-      "事件地點（城市或具體場域，1-2個詞）",
-      "事件名稱（1個詞）",
-      "相關人物或組織名稱（1-3個詞，每個詞獨立一項）",
-      "研究關鍵詞1（與產業/平台/政策/地緣相關）",
-      "研究關鍵詞2",
-      "研究關鍵詞3"
-    ],
-    "digital_physical_entanglement": "深入描述數位輿論流動如何與實體空間互動（2-3句）"
-  }},
-  "signal_strength": "high/medium/low"
+    "location": ["事件發生的城市或具體場域，每個地點獨立一項，若無明確地點則留空陣列"],
+    "actors": ["行動者或相關組織名稱，每個獨立一項，共1至3項。包含主動發起行動的主體與直接受影響的客體"],
+    "keywords": ["研究關鍵詞1（從產業結構／平台權力／文化政策／地緣競合中擇一切入）", "研究關鍵詞2", "研究關鍵詞3"],
+    "actor_logic": "一句話描述行動者在此事件中的個體利益考量與行動動機。聚焦於「這個主體為何在此時此刻選擇這樣做」，可涉及商業利益、聲譽管理、市場卡位等個體層次的判斷。若新聞無明確單一行動者，則描述推動事件發生的主導力量。",
+    "structural_change": "一句話描述行動者背後的結構力量（產業邏輯、平台權力、資本關係、政策框架）如何透過這個行動作用於其他客體（粉絲社群、競爭者、監管機構、實體場域）。重點是「誰或什麼被這個行動影響，以及影響的傳導機制是什麼」。",
+    "trend_implication": "一句話描述被影響的客體背後存在什麼結構性脈絡，這個脈絡與行動者的結構碰撞之後，指向什麼更大的產業、地緣或文化趨勢變化。"
+  }}
 }}
 
-tags 陣列請依序填入：事件地點 → 事件名稱 → 相關人物或組織 → 3個研究關鍵詞，共6至9個項目。每個項目為一個字串。"""
+location 填入事件相關的實體地點，純數位事件（平台政策、線上輿論）若無對應實體場域則留空陣列 []。
+actors 填入人名或組織名，不填職稱描述。
+keywords 填入3個詞，每個詞對應一個分析維度，不重複、不使用過於寬泛的詞（如「娛樂產業」）。{extra}"""
 
-    text = _extract_json(_call_claude(prompt))
-    return json.loads(text)
+
+def _analyze_article(entry):
+    def _build_prompt(extra=""):
+        return _ANALYZE_PROMPT_TEMPLATE.format(
+            title=entry['title'],
+            summary=entry.get('summary', '（無摘要）'),
+            link=entry['link'],
+            category=entry['category'],
+            extra=extra,
+        )
+
+    text = _extract_json(_call_claude(_build_prompt()))
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError as e:
+        print(f"  JSON parse error ({e}), retrying with escaping hint...", file=sys.stderr)
+        retry_note = "\n\n重要：輸出 JSON 時，所有字串值內的雙引號必須以 \\\" 跳脫，不得出現未跳脫的裸引號。"
+        text = _extract_json(_call_claude(_build_prompt(retry_note)))
+        return json.loads(text)
 
 
 def run_analyzer(raw_data):
     candidates = _collect_candidates(raw_data)
-    signal_examples = _load_signal_examples()
-    if signal_examples:
-        print(f"  Loaded {len(signal_examples)} signal feedback examples.", file=sys.stderr)
     results = {
         "metadata": {
             "date": datetime.now().strftime("%Y-%m-%d"),
@@ -177,7 +160,7 @@ def run_analyzer(raw_data):
         for i, entry in enumerate(selected, 1):
             print(f"  ({i}/{len(selected)}) {entry['title'][:60]}...", file=sys.stderr)
             try:
-                analysis = _analyze_article(entry, signal_examples=signal_examples)
+                analysis = _analyze_article(entry)
                 results["articles"].append(analysis)
                 results["metadata"]["total_entries"] += 1
             except Exception as e:
@@ -185,7 +168,27 @@ def run_analyzer(raw_data):
 
         results["metadata"]["categories"][category] = len(selected)
 
+    results["metadata"]["daily_digest"] = _generate_daily_digest(results["articles"])
     return results
+
+
+def _generate_daily_digest(articles):
+    if not articles:
+        return ""
+    listing = "\n".join(
+        f"- [{a.get('category', '')}] {a.get('title', '')}：{a.get('summary_zh', '')[:60]}"
+        for a in articles
+    )
+    prompt = f"""以下是今天篩選出的新聞清單，每條附有標題與簡短摘要：
+
+{listing}
+
+請用一句話（60字以內），中立客觀地讓讀者快速了解今天篩選了哪些面向的新聞，不加入分析或評論。只輸出這一句話，不要加任何前綴或標點符號以外的文字。"""
+    try:
+        return _call_claude(prompt).strip()
+    except Exception as e:
+        print(f"  Daily digest error: {e}", file=sys.stderr)
+        return ""
 
 
 if __name__ == "__main__":

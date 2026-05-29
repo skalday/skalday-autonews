@@ -8,7 +8,7 @@ DOCS_DIR = BASE_DIR / "docs"
 
 SITE_URL = "https://skalday.github.io/skalday-autonews"
 SITE_TITLE = "SkalDay AutoNews"
-SITE_DESC = "每天多看一些流行文化新聞"
+SITE_DESC = "每天多思考一些流行文化新聞"
 
 _FONTS = (
     '<link rel="preconnect" href="https://fonts.googleapis.com">\n'
@@ -44,7 +44,7 @@ p { margin-bottom: 8px; }
 .meta {
   font-family: 'Courier Prime', 'Noto Sans TC', monospace;
   font-size: 12px;
-  color: #89B4E8;
+  color: #0051ba;
   margin-bottom: 6px;
 }
 .win98-box {
@@ -92,8 +92,8 @@ p { margin-bottom: 8px; }
   font-size: 13px;
   font-weight: 700;
   padding: 8px 24px;
-  border-top: 3px solid #89B4E8;
-  border-left: 3px solid #89B4E8;
+  border-top: 3px solid #0051ba;
+  border-left: 3px solid #0051ba;
   border-right: 3px solid #0F2B5B;
   border-bottom: 3px solid #0F2B5B;
   text-decoration: none;
@@ -102,8 +102,8 @@ p { margin-bottom: 8px; }
 .win98-cta:active {
   border-top: 3px solid #0F2B5B;
   border-left: 3px solid #0F2B5B;
-  border-right: 3px solid #89B4E8;
-  border-bottom: 3px solid #89B4E8;
+  border-right: 3px solid #0051ba;
+  border-bottom: 3px solid #0051ba;
 }
 .tag {
   display: inline-block;
@@ -163,7 +163,9 @@ p { margin-bottom: 8px; }
   font-size: 11px;
   padding: 8px 16px;
 }
-.nl-footer a { color: #89B4E8; }
+.nl-footer a { color: #0051ba; }
+.nl-header a { color: #F2F2F2; text-decoration: none; }
+.nl-header a:hover { text-decoration: none; color: #ffed00; }
 .report-list { list-style: none; }
 """
 
@@ -186,13 +188,24 @@ def _rss_date(date_str):
 
 def _article_html(article):
     analysis = article.get("analysis", {})
-    tags = analysis.get("tags", [])
-    entanglement = analysis.get("digital_physical_entanglement", "")
+    location = analysis.get("location", [])
+    actors = analysis.get("actors", [])
+    keywords = analysis.get("keywords", [])
+    actor_logic = analysis.get("actor_logic", "")
+    structural_change = analysis.get("structural_change", "")
+    trend_implication = analysis.get("trend_implication", "")
     title = article.get("title", "")
     link = article.get("original_link", "#")
     summary = article.get("summary_zh", "")
 
-    tag_html = " ".join(f'<span class="tag">{_e(t)}</span>' for t in tags)
+    all_tags = (location or ["純數位"]) + actors + keywords
+    tag_html = " ".join(f'<span class="tag">{_e(t)}</span>' for t in all_tags)
+
+    analysis_html = (
+        f'<p style="margin-bottom:6px"><span class="meta">從新聞了解行為</span><br>{_e(actor_logic)}</p>'
+        f'<p style="margin-bottom:6px"><span class="meta">從行為了解結構</span><br>{_e(structural_change)}</p>'
+        f'<p style="margin-bottom:0"><span class="meta">從結構了解趨勢</span><br>{_e(trend_implication)}</p>'
+    )
 
     return f"""<div class="win98-box">
   <div class="win98-title-bar">
@@ -201,18 +214,19 @@ def _article_html(article):
   </div>
   <div class="win98-body">
     <p>{_e(summary)}</p>
-    <div class="win98-inset">{_e(entanglement)}</div>
-    <p style="margin-top:6px;margin-bottom:0">{tag_html}</p>
-    <a href="{_e(link)}" target="_blank" rel="noopener">&#8594; 原文</a>
+    <div class="win98-inset">{analysis_html}</div>
+    <p style="margin-top:8px;margin-bottom:6px">{tag_html}</p>
+    <a href="{_e(link)}" target="_blank" rel="noopener">&#8594; 閱讀新聞原文</a>
   </div>
 </div>"""
 
 
 def _report_html(analysis_data, date_str):
-    week_range = _week_range_str(date_str)
+    date_formatted = datetime.strptime(date_str, "%Y%m%d").strftime("%Y-%m-%d")
     meta = analysis_data.get("metadata", {})
     total = meta.get("total_entries", 0)
     generated_at = datetime.now().strftime("%Y-%m-%d %H:%M")
+    daily_digest = meta.get("daily_digest", "")
 
     by_category = {}
     for article in analysis_data.get("articles", []):
@@ -229,19 +243,19 @@ def _report_html(analysis_data, date_str):
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="week-range" content="{week_range}">
-  <title>{SITE_TITLE} — {week_range}</title>
+  <title>{SITE_TITLE} {date_formatted}</title>
   {_FONTS}
   <style>{_CSS}</style>
 </head>
 <body>
 <div class="nl-preview">
   <div class="nl-header">
-    <span class="nl-title">{SITE_TITLE}</span>
+    <a href="index.html" class="nl-title">{SITE_TITLE}</a>
   </div>
   <div class="nl-body">
-    <h2>本週週報 {week_range}</h2>
+    <h2>&#9733; {date_formatted}</h2>
     <p class="meta">生成時間：{generated_at}　總計：{total} 篇</p>
+    {'<p style="margin-bottom:12px">' + _e(daily_digest) + '</p>' if daily_digest else ''}
     <p style="margin-bottom:16px"><a href="index.html">&#8592; 返回彙整</a></p>
 {"".join(sections)}
   </div>
@@ -257,10 +271,11 @@ def _index_html(reports):
     items = []
     for r in reports:
         date_str = r["date"]
-        week_range = r.get("week_range", date_str)
         total = r.get("total_entries", 0)
         cats = r.get("categories", {})
         cat_str = "　".join(f"{k} {v}篇" for k, v in cats.items())
+        digest = r.get("daily_digest", "")
+        digest_html = f'<p style="margin-bottom:8px">{_e(digest)}</p>' if digest else ""
         items.append(f"""<li>
   <div class="win98-box">
     <div class="win98-title-bar">
@@ -269,7 +284,7 @@ def _index_html(reports):
     </div>
     <div class="win98-body">
       <p class="meta">{_e(cat_str)} &nbsp;|&nbsp; 共 {total} 篇</p>
-      <a href="{_e(date_str)}.html">&#8594; 閱讀</a>
+      {digest_html}<a href="{_e(date_str)}.html">&#8594; 看更多</a>
     </div>
   </div>
 </li>""")
@@ -281,14 +296,14 @@ def _index_html(reports):
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{SITE_TITLE} — 週報彙整</title>
+  <title>{SITE_TITLE}</title>
   {_FONTS}
   <style>{_CSS}</style>
 </head>
 <body>
 <div class="nl-preview">
   <div class="nl-header">
-    <span class="nl-title">{SITE_TITLE}</span>
+    <a href="index.html" class="nl-title">{SITE_TITLE}</a>
   </div>
   <div class="nl-body">
     <ul class="report-list">
@@ -351,6 +366,7 @@ def publish(analysis_data):
         "week_range": _week_range_str(date_str),
         "total_entries": analysis_data["metadata"]["total_entries"],
         "categories": analysis_data["metadata"].get("categories", {}),
+        "daily_digest": analysis_data["metadata"].get("daily_digest", ""),
     }
     index = [e for e in index if e["date"] != date_str] + [entry]
     index.sort(key=lambda e: e["date"], reverse=True)

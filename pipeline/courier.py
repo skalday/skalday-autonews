@@ -54,20 +54,31 @@ def _generate_executive_summary(analysis_data):
 
 def _format_article(article):
     analysis = article.get("analysis", {})
-    location = analysis.get("location", {})
+    location = analysis.get("location", [])
+    actors = analysis.get("actors", [])
     keywords = analysis.get("keywords", [])
-    entanglement = analysis.get("digital_physical_entanglement", "")
+    actor_logic = analysis.get("actor_logic", "")
+    structural_change = analysis.get("structural_change", "")
+    trend_implication = analysis.get("trend_implication", "")
+
+    location_str = "、".join(location) if location else "（純數位）"
+    actors_str = "、".join(actors) if actors else "N/A"
+    keywords_str = "、".join(keywords) if keywords else "N/A"
 
     lines = [
         f"### {article.get('title', 'N/A')}",
         f"",
-        f"**場域**：{location.get('city', 'N/A')} / {location.get('specific_node', 'N/A')}",
+        f"**場域**：{location_str}　**行動者**：{actors_str}",
         f"",
         f"**摘要**：{article.get('summary_zh', 'N/A')}",
         f"",
-        f"**分析**：{entanglement}",
+        f"**行動邏輯**：{actor_logic}",
         f"",
-        f"**關鍵詞**：{', '.join(keywords) if keywords else 'N/A'}",
+        f"**結構作用**：{structural_change}",
+        f"",
+        f"**趨勢指向**：{trend_implication}",
+        f"",
+        f"**關鍵詞**：{keywords_str}",
         f"",
         f"🔗 [{article.get('title', '')}]({article.get('original_link', '#')})",
         f"",
