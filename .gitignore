@@ -19,5 +19,6 @@ __pycache__/
 venv/
 .gstack/
 
-# Scheduler logs
+# Scheduler (machine-specific paths)
+run_scheduled.ps1
 logs/
