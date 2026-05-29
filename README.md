@@ -6,7 +6,7 @@
 
 <a name="english"></a>
 
-## The Industry Behind the Music
+## The Struture Behind the Pop Culture
 
 SkalDay AutoNews is an automated daily newsletter covering the business side of pop culture across Japan, Korea, and Thailand.
 
@@ -94,13 +94,13 @@ Edit the prompt in `pipeline/analyzer.py`.
 
 ## 用產業視角讀流行文化
 
-SkalDay AutoNews 自動彙整日本、韓國、泰國流行文化產業新聞，並用以下觀察框架進行新聞篩選與分析。
+SkalDay AutoNews 自動彙整日本、韓國、泰國流行文化產業新聞。
 
 [![Website](https://img.shields.io/badge/電子報網站-線上閱讀-blue)](https://skalday.github.io/skalday-autonews)
 [![RSS](https://img.shields.io/badge/RSS-訂閱-orange)](https://skalday.github.io/skalday-autonews/feed.xml)
 [![License](https://img.shields.io/github/license/skalday/skalday-autonews)](LICENSE)
 
-## 篩選標準
+## 新聞篩選標準
 
 - 廠牌擴張、資本併購、企業決策等**產業結構變動**
 - 文化政策、數位管制、政府介入等**政策動向**
@@ -108,7 +108,7 @@ SkalDay AutoNews 自動彙整日本、韓國、泰國流行文化產業新聞，
 - 品牌合作、跨境偶像、地緣競合等**跨國資本流動**
 - 演唱會、快閃店、展覽等**數位流量與實體場域的連結**
 
-## 摘要分析架構
+## 新聞摘要分析架構
 
 每則分析從單一新聞事件出發，逐層往上推：行為、結構、趨勢。範例如下：
 
@@ -127,9 +127,9 @@ SkalDay AutoNews 自動彙整日本、韓國、泰國流行文化產業新聞，
 
 ## 注意事項
 
-這份電子報由 AI 自動篩選與撰寫，篩選標準來自一組人工設定的問題意識，關注流行文化作為產業與政治場域的面向。使用前請記得查證與獨立判斷。
+這份電子報由 AI 自動篩選與撰寫，篩選標準來自一組人工設定的價值觀立場，關注流行文化作為產業與政治場域的面向。使用過程建議查證與獨立判斷。
 
-這個工具還在成長，離最理想的狀態還有一段距離，也歡迎指教。
+這個工具還在成長，離理想狀態還有一段距離，也歡迎指教。
 
 ## 自行架設
 
