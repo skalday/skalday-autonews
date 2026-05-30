@@ -8,8 +8,9 @@ from email.utils import parsedate_to_datetime
 
 ITEMS_PER_SOURCE = 10
 HOURS_WINDOW = 24
+TW_TZ = timezone(timedelta(hours=8))
 
-def fetch_rss_feeds(file_path):
+def fetch_rss_feeds(file_path, target_date=None):
     sources = _parse_source_file(file_path)
     results = {}
 
@@ -20,7 +21,7 @@ def fetch_rss_feeds(file_path):
     for category, urls in sources.items():
         results[category] = []
         for url in urls:
-            entries = _fetch_single_feed(url, headers)
+            entries = _fetch_single_feed(url, headers, target_date=target_date)
             results[category].append({"url": url, "entries": entries})
             total = sum(len(s["entries"]) for s in results[category])
             print(f"  [{category}] {url} => {len(entries)} articles (category total: {total})", file=sys.stderr)
@@ -107,20 +108,25 @@ def _entry_fields(el, fmt):
     return title, link, pub_raw, summary
 
 
-def _fetch_single_feed(url, headers):
+def _fetch_single_feed(url, headers, target_date=None):
     try:
         req = urllib.request.Request(_encode_url(url), headers=headers)
         with urllib.request.urlopen(req, timeout=10) as response:
             raw = _normalize_raw(response.read())
         root = ET.fromstring(raw)
         elements, fmt = _extract_entries(root)
-        cutoff = datetime.now(timezone.utc) - timedelta(hours=HOURS_WINDOW)
+        # When targeting a specific date, look back 48h; otherwise use default window
+        hours = 48 if target_date else HOURS_WINDOW
+        cutoff = datetime.now(timezone.utc) - timedelta(hours=hours)
         entries = []
         for el in elements[:ITEMS_PER_SOURCE]:
             title, link, pub_raw, summary = _entry_fields(el, fmt)
             pub_dt = _parse_pubdate(pub_raw)
             if pub_dt is not None and pub_dt < cutoff:
                 continue
+            if target_date and pub_dt is not None:
+                if pub_dt.astimezone(TW_TZ).date() != target_date:
+                    continue
             entries.append({
                 "title": title,
                 "link": link,

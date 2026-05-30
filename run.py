@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """
 News Automation Pipeline Orchestrator
-Usage: python run.py [--skip-fetch] [--skip-analyze] [--skip-publish]
+Usage: python run.py [--skip-fetch] [--skip-analyze] [--skip-publish] [--date YYYYMMDD]
   --skip-fetch     Reuse existing news_data.json
   --skip-analyze   Reuse existing analysis_data.json
   --skip-publish   Skip static site generation
+  --date YYYYMMDD  Target a specific date (fetches articles from that day, names report accordingly)
 """
 import json
 import sys
@@ -44,15 +45,16 @@ def save_json(data, path):
     print(f"Saved: {path}")
 
 
-def step_fetch(skip=False):
+def step_fetch(skip=False, target_date=None):
     news_file = BASE_DIR / "data" / "news_data.json"
     if skip and news_file.exists():
         print(f"[1/4] SKIP fetch — loading {news_file}")
         return load_json(news_file)
 
-    print("[1/4] Fetching RSS feeds...")
+    date_label = f" (targeting {target_date})" if target_date else ""
+    print(f"[1/4] Fetching RSS feeds{date_label}...")
     from pipeline.fetcher import fetch_rss_feeds
-    data = fetch_rss_feeds(str(BASE_DIR / "config" / "rss_sources.txt"))
+    data = fetch_rss_feeds(str(BASE_DIR / "config" / "rss_sources.txt"), target_date=target_date)
     save_json(data, news_file)
     total = sum(len(e["entries"]) for cat in data.values() for e in cat)
     print(f"      Fetched {total} articles across {len(data)} categories.\n")
@@ -73,12 +75,13 @@ def step_analyze(raw_data, skip=False):
     return results
 
 
-def step_courier(analysis_data):
+def step_courier(analysis_data, date_str=None):
     print("[3/4] Generating report...")
     from pipeline.courier import generate_report
     report = generate_report(analysis_data)
 
-    date_str = datetime.now().strftime("%Y%m%d")
+    if date_str is None:
+        date_str = datetime.now().strftime("%Y%m%d")
     report_file = BASE_DIR / "reports" / f"report_{date_str}.md"
     report_file.write_text(report, encoding='utf-8')
     print(f"      Report saved: {report_file}\n")
@@ -94,20 +97,31 @@ def step_publish(analysis_data):
 
 
 def main():
-    args = set(sys.argv[1:])
+    args = sys.argv[1:]
 
     skip_fetch = "--skip-fetch" in args
     skip_analyze = "--skip-analyze" in args
     skip_publish = "--skip-publish" in args
 
+    target_date = None
+    date_str = None
+    if "--date" in args:
+        idx = args.index("--date")
+        raw_date = args[idx + 1]
+        from datetime import date as _date
+        target_date = _date(int(raw_date[:4]), int(raw_date[4:6]), int(raw_date[6:8]))
+        date_str = raw_date
+
     print("=" * 50)
     print("  News Automation Pipeline")
     print(f"  {datetime.now().strftime('%Y-%m-%d %H:%M')}")
+    if date_str:
+        print(f"  Target date: {date_str}")
     print("=" * 50 + "\n")
 
-    raw_data = step_fetch(skip=skip_fetch)
+    raw_data = step_fetch(skip=skip_fetch, target_date=target_date)
     analysis_data = step_analyze(raw_data, skip=skip_analyze)
-    report_file = step_courier(analysis_data)
+    report_file = step_courier(analysis_data, date_str=date_str)
     if not skip_publish:
         step_publish(analysis_data)
 
