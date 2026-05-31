@@ -11,7 +11,8 @@ SITE_TITLE = "SkalDay AutoNews"
 SITE_DESC = "每天多思考一些流行文化新聞"
 
 _FONTS = (
-    '<link rel="preconnect" href="https://fonts.googleapis.com">\n'
+    '<link rel="icon" type="image/x-icon" href="/skalday-autonews/favicon.ico">\n'
+    '  <link rel="preconnect" href="https://fonts.googleapis.com">\n'
     '  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n'
     '  <link href="https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@600'
     '&family=Noto+Sans+TC:wght@300&family=Oleo+Script:wght@700'
@@ -328,12 +329,14 @@ def _feed_xml(analysis_data, date_str, index):
         total = r.get("total_entries", 0)
         link = f"{SITE_URL}/{d}.html"
         pd = _rss_date(d)
+        digest = r.get("daily_digest", "")
+        desc = f"本期收錄 {total} 則新聞摘要｜{digest}" if digest else f"本期收錄 {total} 則新聞摘要"
         items.append(f"""    <item>
       <title>SkalDay AutoNews - {d}</title>
       <link>{link}</link>
       <guid>{link}</guid>
       <pubDate>{pd}</pubDate>
-      <description>本期收錄 {total} 則新聞摘要</description>
+      <description>{_e(desc)}</description>
     </item>""")
 
     items_xml = "\n".join(items)
@@ -346,6 +349,11 @@ def _feed_xml(analysis_data, date_str, index):
     <description>{SITE_DESC}</description>
     <language>zh-Hant</language>
     <lastBuildDate>{pub_date}</lastBuildDate>
+    <image>
+      <url>{SITE_URL}/favicon.ico</url>
+      <title>{SITE_TITLE}</title>
+      <link>{SITE_URL}</link>
+    </image>
 {items_xml}
   </channel>
 </rss>"""
