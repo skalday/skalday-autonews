@@ -5,6 +5,7 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).parent.parent
 DOCS_DIR = BASE_DIR / "docs"
+REPORTS_DIR = DOCS_DIR / "reports"
 
 SITE_URL = "https://skalday.github.io/skalday-autonews"
 SITE_TITLE = "SkalDay AutoNews"
@@ -251,17 +252,17 @@ def _report_html(analysis_data, date_str):
 <body>
 <div class="nl-preview">
   <div class="nl-header">
-    <a href="index.html" class="nl-title">{SITE_TITLE}</a>
+    <a href="../index.html" class="nl-title">{SITE_TITLE}</a>
   </div>
   <div class="nl-body">
     <h2>&#9733; {date_formatted}</h2>
     <p class="meta">生成時間：{generated_at}　總計：{total} 篇</p>
     {'<p style="margin-bottom:12px">' + _e(daily_digest) + '</p>' if daily_digest else ''}
-    <p style="margin-bottom:16px"><a href="index.html">&#8592; 返回彙整</a></p>
+    <p style="margin-bottom:16px"><a href="../index.html">&#8592; 返回彙整</a></p>
 {"".join(sections)}
   </div>
   <div class="nl-footer">
-    <p>&#169; {SITE_TITLE} &nbsp;|&nbsp; <a href="feed.xml">RSS 訂閱</a> &nbsp;|&nbsp; {SITE_DESC}</p>
+    <p>&#169; {SITE_TITLE} &nbsp;|&nbsp; <a href="../feed.xml">RSS 訂閱</a> &nbsp;|&nbsp; {SITE_DESC}</p>
   </div>
 </div>
 </body>
@@ -285,7 +286,7 @@ def _index_html(reports):
     </div>
     <div class="win98-body">
       <p class="meta">{_e(cat_str)} &nbsp;|&nbsp; 共 {total} 篇</p>
-      {digest_html}<a href="{_e(date_str)}.html">&#8594; 看更多</a>
+      {digest_html}<a href="reports/{_e(date_str)}.html">&#8594; 看更多</a>
     </div>
   </div>
 </li>""")
@@ -327,7 +328,7 @@ def _feed_xml(analysis_data, date_str, index):
         d = r["date"]
         wr = r.get("week_range", d)
         total = r.get("total_entries", 0)
-        link = f"{SITE_URL}/{d}.html"
+        link = f"{SITE_URL}/reports/{d}.html"
         pd = _rss_date(d)
         digest = r.get("daily_digest", "")
         desc = f"本期收錄 {total} 則新聞摘要｜{digest}" if digest else f"本期收錄 {total} 則新聞摘要"
@@ -361,11 +362,12 @@ def _feed_xml(analysis_data, date_str, index):
 
 def publish(analysis_data):
     DOCS_DIR.mkdir(exist_ok=True)
+    REPORTS_DIR.mkdir(exist_ok=True)
 
     date_str = analysis_data["metadata"]["date"].replace("-", "")
 
     report_html = _report_html(analysis_data, date_str)
-    (DOCS_DIR / f"{date_str}.html").write_text(report_html, encoding="utf-8")
+    (REPORTS_DIR / f"{date_str}.html").write_text(report_html, encoding="utf-8")
 
     index_file = DOCS_DIR / "index.json"
     index = json.loads(index_file.read_text(encoding="utf-8")) if index_file.exists() else []
