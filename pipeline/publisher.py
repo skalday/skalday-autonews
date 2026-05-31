@@ -323,27 +323,42 @@ def _index_html(reports):
 def _feed_xml(analysis_data, date_str, index):
     pub_date = _rss_date(date_str)
 
-    items = []
+    today_items = []
+    for article in analysis_data.get("articles", []):
+        title = article.get("title", "")
+        link = article.get("original_link", f"{SITE_URL}/reports/{date_str}.html")
+        summary = article.get("summary_zh", "")
+        content_html = _article_html(article)
+        today_items.append(f"""    <item>
+      <title>{_e(title)}</title>
+      <link>{_e(link)}</link>
+      <guid>{_e(link)}</guid>
+      <pubDate>{_rss_date(date_str)}</pubDate>
+      <description>{_e(summary)}</description>
+      <content:encoded><![CDATA[{content_html}]]></content:encoded>
+    </item>""")
+
+    hist_items = []
     for r in index:
+        if r["date"] == date_str:
+            continue
         d = r["date"]
-        wr = r.get("week_range", d)
         total = r.get("total_entries", 0)
         link = f"{SITE_URL}/reports/{d}.html"
-        pd = _rss_date(d)
         digest = r.get("daily_digest", "")
         desc = f"本期收錄 {total} 則新聞摘要｜{digest}" if digest else f"本期收錄 {total} 則新聞摘要"
-        items.append(f"""    <item>
+        hist_items.append(f"""    <item>
       <title>SkalDay AutoNews - {d}</title>
       <link>{link}</link>
       <guid>{link}</guid>
-      <pubDate>{pd}</pubDate>
+      <pubDate>{_rss_date(d)}</pubDate>
       <description>{_e(desc)}</description>
     </item>""")
 
-    items_xml = "\n".join(items)
+    items_xml = "\n".join(today_items + hist_items)
 
     return f"""<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0">
+<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>{SITE_TITLE}</title>
     <link>{SITE_URL}</link>
