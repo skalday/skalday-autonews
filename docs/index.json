@@ -1,5 +1,16 @@
 [
   {
+    "date": "20260601",
+    "week_range": "20260601~20260607",
+    "total_entries": 10,
+    "categories": {
+      "Japanese": 5,
+      "Thai": 2,
+      "Korean": 3
+    },
+    "daily_digest": "今日新聞涵蓋日本音樂特番與偶像出道、韓泰文化產業政策動向，以及地方旅遊內容競賽與百老匯劇目在韓首演。"
+  },
+  {
     "date": "20260531",
     "week_range": "20260525~20260531",
     "total_entries": 12,
