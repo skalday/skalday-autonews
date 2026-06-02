@@ -1,5 +1,16 @@
 [
   {
+    "date": "20260602",
+    "week_range": "20260601~20260607",
+    "total_entries": 12,
+    "categories": {
+      "Japanese": 5,
+      "Thai": 3,
+      "Korean": 5
+    },
+    "daily_digest": "今日聚焦日韓泰偶像產業動態、平台內容費用爭議、AI政策爭議，以及黃仁勳訪韓引發的科技與流行文化交會現象。"
+  },
+  {
     "date": "20260601",
     "week_range": "20260601~20260607",
     "total_entries": 10,
