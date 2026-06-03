@@ -1,5 +1,16 @@
 [
   {
+    "date": "20260603",
+    "week_range": "20260601~20260607",
+    "total_entries": 9,
+    "categories": {
+      "Japanese": 3,
+      "Thai": 1,
+      "Korean": 5
+    },
+    "daily_digest": "今日涵蓋日台韓獨立樂團跨國演出動態、韓國偶像音樂風格轉向、平台資料外洩事件、政治人物與科技CEO的媒體曝光，以及動畫產業創作者觀點。"
+  },
+  {
     "date": "20260602",
     "week_range": "20260601~20260607",
     "total_entries": 12,
