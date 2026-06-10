@@ -1,5 +1,38 @@
 [
   {
+    "date": "20260610",
+    "week_range": "20260608~20260614",
+    "total_entries": 12,
+    "categories": {
+      "Japanese": 5,
+      "Thai": 3,
+      "Korean": 4
+    },
+    "daily_digest": "今日涵蓋日韓泰偶像演出活動、音樂串流跨境現象、藝人數位安全機制，以及韓國遊戲產業政策轉型與AI定位等面向的新聞。"
+  },
+  {
+    "date": "20260609",
+    "week_range": "20260608~20260614",
+    "total_entries": 12,
+    "categories": {
+      "Japanese": 3,
+      "Thai": 4,
+      "Korean": 5
+    },
+    "daily_digest": "今日涵蓋偶像演唱會與巡演動態、平台抽成政策、創意經濟空間佈局，以及AI訓練授權爭議。"
+  },
+  {
+    "date": "20260608",
+    "week_range": "20260608~20260614",
+    "total_entries": 13,
+    "categories": {
+      "Japanese": 5,
+      "Thai": 3,
+      "Korean": 5
+    },
+    "daily_digest": "今日新聞涵蓋韓日泰三地音樂產業合作、榜單動態、藝人品牌化、音樂節出海，以及城市空間與粉絲文化、政策金融與K內容產業競爭力等議題。"
+  },
+  {
     "date": "20260605",
     "week_range": "20260601~20260607",
     "total_entries": 12,
