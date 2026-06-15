@@ -1,5 +1,38 @@
 [
   {
+    "date": "20260615",
+    "week_range": "20260615~20260621",
+    "total_entries": 13,
+    "categories": {
+      "Japanese": 5,
+      "Thai": 4,
+      "Korean": 5
+    },
+    "daily_digest": "今日涵蓋偶像與奢侈品牌跨界合作、演唱會場次擴張、週年粉絲活動，以及短影音引發地方場域關注等產業動態。"
+  },
+  {
+    "date": "20260614",
+    "week_range": "20260608~20260614",
+    "total_entries": 11,
+    "categories": {
+      "Japanese": 5,
+      "Thai": 1,
+      "Korean": 5
+    },
+    "daily_digest": "今日新聞涵蓋日本偶像跨媒體合作與海外演出擴張、BTS韓國本土演唱會的現場管理問題、韓國遊戲產業AI政策討論，以及平台勞工國際保護立法。"
+  },
+  {
+    "date": "20260613",
+    "week_range": "20260608~20260614",
+    "total_entries": 13,
+    "categories": {
+      "Japanese": 5,
+      "Thai": 3,
+      "Korean": 5
+    },
+    "daily_digest": "今日涵蓋日本音樂頒獎典禮與偶像動態、泰國數位金融政策與平台補貼、LISA跨體育賽事曝光、BTS新曲發行與演唱會延誤，以及韓國電影票房與AI遊戲政策論壇。"
+  },
+  {
     "date": "20260612",
     "week_range": "20260608~20260614",
     "total_entries": 12,
