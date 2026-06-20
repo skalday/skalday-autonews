@@ -1,5 +1,60 @@
 [
   {
+    "date": "20260620",
+    "week_range": "20260615~20260621",
+    "total_entries": 9,
+    "categories": {
+      "Japanese": 5,
+      "Thai": 1,
+      "Korean": 3
+    },
+    "daily_digest": "今日新聞涵蓋日韓泰三地偶像演唱會與巡演規劃、AI技術導入MV製作、品牌聲譽排名、粉絲帶動博物館人流，以及泰國AI護照政策審查動態。"
+  },
+  {
+    "date": "20260619",
+    "week_range": "20260615~20260621",
+    "total_entries": 6,
+    "categories": {
+      "Japanese": 2,
+      "Thai": 1,
+      "Korean": 3
+    },
+    "daily_digest": "今日新聞涵蓋日本音樂活動取消、跨國藝人合作、泰國廣電監管機構人事動態、韓國偶像亞洲巡演規劃及世界盃音樂行銷等面向。"
+  },
+  {
+    "date": "20260618",
+    "week_range": "20260615~20260621",
+    "total_entries": 10,
+    "categories": {
+      "Japanese": 3,
+      "Thai": 2,
+      "Korean": 5
+    },
+    "daily_digest": "今日涵蓋日韓泰偶像音樂祭規模擴張、K-pop深偽法律追訴進展，以及韓國IP金融與K文化政策從補助轉投資的結構性動向。"
+  },
+  {
+    "date": "20260617",
+    "week_range": "20260615~20260621",
+    "total_entries": 11,
+    "categories": {
+      "Japanese": 4,
+      "Thai": 1,
+      "Korean": 6
+    },
+    "daily_digest": "今日涵蓋日本樂團大型戶外公演與頒獎後串流效應、泰國藝人跨界品牌代言、韓國K內容政策轉型（AI整合、OTT競爭力、政策金融）及韓國演出場地因示威中斷等面向。"
+  },
+  {
+    "date": "20260616",
+    "week_range": "20260615~20260621",
+    "total_entries": 9,
+    "categories": {
+      "Japanese": 3,
+      "Thai": 3,
+      "Korean": 3
+    },
+    "daily_digest": "今日涵蓋日韓泰偶像與樂團跨國演唱會動態、平台社群建立、品牌併購、泰國遊戲產業政策推進，以及首爾示威影響演出場地與韓國內容集團財務危機等面向。"
+  },
+  {
     "date": "20260615",
     "week_range": "20260615~20260621",
     "total_entries": 13,
