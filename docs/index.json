@@ -1,5 +1,38 @@
 [
   {
+    "date": "20260623",
+    "week_range": "20260622~20260628",
+    "total_entries": 8,
+    "categories": {
+      "Japanese": 3,
+      "Thai": 1,
+      "Korean": 4
+    },
+    "daily_digest": "今日新聞涵蓋日韓遊戲產業官民投資基金、偶像跨國經紀布局與演唱會數位實體聯動，呈現文化政策與粉絲經濟的跨境互動"
+  },
+  {
+    "date": "20260622",
+    "week_range": "20260622~20260628",
+    "total_entries": 9,
+    "categories": {
+      "Japanese": 1,
+      "Thai": 4,
+      "Korean": 4
+    },
+    "daily_digest": "今日新聞聚焦韓泰文化內容產業金融政策重整、AI生成內容應用，以及偶像演唱會與觀光體驗經濟對實體場域的牽動"
+  },
+  {
+    "date": "20260621",
+    "week_range": "20260615~20260621",
+    "total_entries": 7,
+    "categories": {
+      "Japanese": 3,
+      "Thai": 0,
+      "Korean": 4
+    },
+    "daily_digest": "今日新聞涵蓋日韓流行音樂團體社群平台動態、跨國巡演與聯名合作、AI技術跨入傳統音樂創作，以及內容產業政策金融討論。"
+  },
+  {
     "date": "20260620",
     "week_range": "20260615~20260621",
     "total_entries": 9,
