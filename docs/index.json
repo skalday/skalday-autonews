@@ -1,5 +1,49 @@
 [
   {
+    "date": "20260628",
+    "week_range": "20260622~20260628",
+    "total_entries": 10,
+    "categories": {
+      "Japanese": 4,
+      "Thai": 1,
+      "Korean": 5
+    },
+    "daily_digest": "今日新聞涵蓋日韓偶像與樂團的社群平台動態、巡演啟動與場館映播，以及韓國流行音樂在歐美榜單的認證表現，另含泰國視角的大型賽事城市經濟效應報導。"
+  },
+  {
+    "date": "20260627",
+    "week_range": "20260622~20260628",
+    "total_entries": 7,
+    "categories": {
+      "Japanese": 3,
+      "Thai": 1,
+      "Korean": 3
+    },
+    "daily_digest": "今日新聞涵蓋日韓合作新人團體出道、跨媒體授權（動畫主題曲）、電視音樂特番陣容、泰國偶像體系週年、韓國男團回歸與全球數位榜表現，以及韓國人氣節目赴日公演計畫。"
+  },
+  {
+    "date": "20260625",
+    "week_range": "20260622~20260628",
+    "total_entries": 10,
+    "categories": {
+      "Japanese": 5,
+      "Thai": 3,
+      "Korean": 2
+    },
+    "daily_digest": "今日涵蓋日韓泰三地偶像音樂產業動態、平台流量與排行榜表現、泰國能源與數位政策走向，以及 Netflix 收視現象。"
+  },
+  {
+    "date": "20260624",
+    "week_range": "20260622~20260628",
+    "total_entries": 12,
+    "categories": {
+      "Japanese": 5,
+      "Thai": 2,
+      "Korean": 5
+    },
+    "daily_digest": "今日新聞涵蓋日本偶像與樂團演出空間布局、韓國光州數位內容政策論壇、泰韓女團跨國合作排行，以及AI創作倫理爭議。"
+  },
+  {
     "date": "20260623",
     "week_range": "20260622~20260628",
     "total_entries": 8,
