@@ -1,5 +1,38 @@
 [
   {
+    "date": "20260704",
+    "week_range": "20260629~20260705",
+    "total_entries": 6,
+    "categories": {
+      "Japanese": 3,
+      "Thai": 1,
+      "Korean": 2
+    },
+    "daily_digest": "今日涵蓋日韓音樂人與遊戲品牌的跨界合作、演唱會展演資訊、偶像品牌聲譽數據，以及泰國與韓國城市藉文化活動拓展國際影響力的政策動向。"
+  },
+  {
+    "date": "20260703",
+    "week_range": "20260629~20260705",
+    "total_entries": 8,
+    "categories": {
+      "Japanese": 3,
+      "Thai": 1,
+      "Korean": 5
+    },
+    "daily_digest": "今日涵蓋日本數位音樂榜單動態、韓國K-Pop藝人與平台政策走向、泰國AI治理警示，以及娛樂內容與公共政策交織的新興傳播趨勢。"
+  },
+  {
+    "date": "20260702",
+    "week_range": "20260629~20260705",
+    "total_entries": 9,
+    "categories": {
+      "Japanese": 3,
+      "Thai": 3,
+      "Korean": 3
+    },
+    "daily_digest": "今日新聞涵蓋日韓泰跨媒體合作、偶像選舉與品牌代言，以及韓國電影產業危機與文化政策檢討。"
+  },
+  {
     "date": "20260628",
     "week_range": "20260622~20260628",
     "total_entries": 10,
