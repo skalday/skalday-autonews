@@ -1,5 +1,50 @@
 [
   {
+    "date": "20260713",
+    "week_range": "20260713~20260719",
+    "total_entries": 7,
+    "categories": {
+      "Japanese": 3,
+      "Thai": 1,
+      "Korean": 3
+    },
+    "daily_digest": "今天篩選了南韓與日本偶像團體的公開活動、國際展覽合作、韓流演員跨國發展及遊戲產業政策討論等新聞。"
+  },
+  {
+    "date": "20260711",
+    "week_range": "20260706~20260712",
+    "total_entries": 6,
+    "categories": {
+      "Japanese": 2,
+      "Thai": 1,
+      "Korean": 3
+    },
+    "daily_digest": "今日新聞聚焦日韓泰偶像團體的實體活動、快閃店，以及K-pop產業政策與著作權爭議"
+  },
+  {
+    "date": "20260710",
+    "week_range": "20260706~20260712",
+    "total_entries": 9,
+    "categories": {
+      "Japanese": 2,
+      "Thai": 2,
+      "Korean": 5,
+      "Chinese": 0
+    },
+    "daily_digest": "今日篩選了偶像跨界合作曲、韓國遊戲產業法規座談、虛擬男團與傳統藝人海外巡演，以及娛樂公司法律行動與著作權爭議等新聞"
+  },
+  {
+    "date": "20260705",
+    "week_range": "20260629~20260705",
+    "total_entries": 9,
+    "categories": {
+      "Japanese": 5,
+      "Thai": 1,
+      "Korean": 3
+    },
+    "daily_digest": "今日新聞涵蓋日本音樂人演出規模擴張與動畫合作、泰國藝能節目新企劃，以及韓國偶像團體回歸與傳統媒體向OTT轉型等動態。"
+  },
+  {
     "date": "20260704",
     "week_range": "20260629~20260705",
     "total_entries": 6,
